@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { portal } from 'svelte-portal';
     import { createEventDispatcher, onMount } from 'svelte';
     import { fade } from 'svelte/transition';
+    import { portal } from 'svelte-portal';
 
     interface TideImage {
         [key: string]: unknown;
