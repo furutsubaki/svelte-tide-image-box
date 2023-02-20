@@ -6,9 +6,24 @@
     "repository": "https://github.com/furutsubaki/svelte-tide-image-box",
     "license": "MIT",
     "version": "0.0.1",
+    "main": "dist/index.js",
+    "svelte": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
     "type": "module",
-    "svelte": "index.js",
     "bugs": "https://github.com/furutsubaki/svelte-tide-image-box/issues",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./package.json": "./package.json"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
     "scripts": {
         "dev": "vite",
         "build": "vite build",
@@ -16,16 +31,21 @@
         "package": "svelte-package",
         "check": "svelte-check --tsconfig ./tsconfig.json"
     },
+    "dependencies": {
+        "svelte": "latest",
+        "svelte-portal": "^2.2.0"
+    },
     "devDependencies": {
         "@sveltejs/package": "^2.0.2",
         "@sveltejs/vite-plugin-svelte": "^2.0.2",
         "@tsconfig/svelte": "^3.0.0",
         "sass": "^1.58.3",
-        "svelte": "^3.55.1",
         "svelte-check": "^2.10.3",
-        "svelte-portal": "^2.2.0",
         "tslib": "^2.5.0",
         "typescript": "^4.9.3",
         "vite": "^4.1.0"
+    },
+    "publishConfig": {
+        "@furutsubaki:registry": "https://npm.pkg.github.com"
     }
 }
