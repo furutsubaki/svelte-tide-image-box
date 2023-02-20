@@ -1,5 +1,5 @@
 <script lang="ts">
-    import TideImageBox from './lib/TideImageBox.svelte';
+    import TideImageBox from '../../src/TideImageBox.svelte';
     const images = [
         {
             src: '/src/assets/sample1.jpg',
