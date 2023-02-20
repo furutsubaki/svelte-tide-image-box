@@ -4,13 +4,13 @@ Lightbox風のsvelteコンポーネントを提供します。
 
 ## npm install
 
-```
+```bash
 npm install -save-dev furutsubaki/svelte-tide-image-box
 ```
 
 ## use
 
-```
+```typescript
 <script lang="ts">
 import TideImageBox, {type TideImage, type TideImageBoxOption} from 'furutsubaki/svelte-tide-image-box';
 
@@ -33,11 +33,17 @@ const onCatchDispatch = ({ detail: image }) => {
     console.log(image);
 };
 </script>
+```
 
-<!-- simple -->
+### simple
+
+```svelte
 <TideImageBox {images} {optiosn} on:open={onCatchDispatch} on:close={onCatchDispatch} on:change={onCatchDispatch} />
+```
 
-<!-- use slot -->
+### use slot
+
+```svelte
 <TideImageBox {images} let:tideImages let:onClick>
     {#each tideImages as image, i (i)}
         <a class="link" href={image.src} on:click={(e) => onClick(e, image)}>
@@ -47,6 +53,12 @@ const onCatchDispatch = ({ detail: image }) => {
 </TideImageBox>
 ```
 
+## options
+
+|property|type|default|desc|
+|---|---|---|---|
+|appendToNode|HTMLElement|document.body|ImageBoxのDOMを追加する要素を設定|
+
 ## event
 
 `on:~`にて各種操作時のeventを取得できます。
@@ -54,5 +66,5 @@ const onCatchDispatch = ({ detail: image }) => {
 |Event|引数|
 |---|---|
 |`on:open`|表示する`image`|
-|`on:close`|表示する`image`|
-|`on:change`|-|
+|`on:close`|---|
+|`on:change`|変更後の`image`|
