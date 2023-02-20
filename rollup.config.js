@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import svelte from 'rollup-plugin-svelte';
 import preprocess from 'svelte-preprocess';
 
-import pkg from './svelte-tide-image-box/package.json';
+import pkg from './package.json';
 
 const name = pkg.name
     .replace(/^(@\S+\/)?(svelte-)?(\S+)/, '$3')
