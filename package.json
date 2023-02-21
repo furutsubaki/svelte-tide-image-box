@@ -2,11 +2,16 @@
     "name": "svelte-tide-image-box",
     "version": "0.0.1",
     "description": "Svelte image box component",
-    "author": "furutsubaki",
+    "author": "furutsubaki <tsubaki@shigurezuki.jp>",
     "homepage": "https://shigurezuki.jp",
     "license": "MIT",
-    "repository": "furutsubaki/svelte-tide-image-box",
-    "bugs": "https://github.com/furutsubaki/svelte-tide-image-box/issues",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/furutsubaki/svelte-tide-image-box"
+    },
+    "bugs": {
+    "url": "https://github.com/furutsubaki/svelte-tide-image-box/issues"
+    },
     "svelte": "src/index.js",
     "module": "dist/index.mjs",
     "main": "dist/index.js",
