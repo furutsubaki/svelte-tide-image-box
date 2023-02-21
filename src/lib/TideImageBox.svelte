@@ -38,8 +38,6 @@
     let overlay = writable<HTMLElement>(null as unknown as HTMLElement);
 
     $: if ($overlay) {
-        console.log('追加');
-
         // イベントリスナー追加
         $overlay.addEventListener('keydown', onKeyDown);
         $overlay.addEventListener('touchstart', onSwipeStart);
