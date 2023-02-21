@@ -65,7 +65,7 @@
     });
 </script>
 
-<div class="tide-images" class:is-not-mounted={!isMounted}>
+<div class="tide-images {$$restProps.class}" class:is-not-mounted={!isMounted}>
     {#if $$slots.default}
         <slot tideImages={images} onClick={(e, image) => onClick(e, image)} />
     {:else}
