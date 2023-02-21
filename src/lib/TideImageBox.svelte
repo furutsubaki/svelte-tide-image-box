@@ -150,8 +150,8 @@
         <slot tideImages={images} {onClick} />
     {:else}
         {#each images as image, i (i)}
-            <a class="tide-link" href={image.thumbnail ?? image.src} on:click={(e) => onClick(e, image)}>
-                <img src={image.src} alt={image.alt} class="tide-img" />
+            <a class="tide-link" href={image.src} on:click={(e) => onClick(e, image)}>
+                <img src={image.thumbnail ?? image.src} alt={image.alt} class="tide-img" />
             </a>
         {/each}
     {/if}
