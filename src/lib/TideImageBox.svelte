@@ -7,6 +7,10 @@
     }
     export interface TideImageOptions {
         appendToNode: HTMLElement;
+        canEscKeyClose: boolean;
+        canArrowKeyChange: boolean;
+        canSwipeDownClose: boolean;
+        canSwipeChange: boolean;
     }
 </script>
 
@@ -14,9 +18,14 @@
     import { createEventDispatcher, onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import { portal } from 'svelte-portal';
+    import { writable } from 'svelte/store';
 
     $: defaultOptions = {
         appendToNode: null as unknown as HTMLElement,
+        canEscKeyClose: true,
+        canArrowKeyChange: true,
+        canSwipeDownClose: true,
+        canSwipeChange: true,
     } as TideImageOptions;
 
     export let images: TideImage[];
@@ -24,7 +33,19 @@
 
     const firstIndex = 0;
     $: lastIndex = images.length - 1;
-    $: createOptions = { ...defaultOptions, ...options };
+    $: op = { ...defaultOptions, ...options };
+
+    let overlay = writable<HTMLElement>(null as unknown as HTMLElement);
+
+    $: if ($overlay) {
+        console.log('追加');
+
+        // イベントリスナー追加
+        $overlay.addEventListener('keydown', onKeyDown);
+        $overlay.addEventListener('touchstart', onSwipeStart);
+        $overlay.addEventListener('touchmove', onSwipeMove);
+        $overlay.addEventListener('touchend', onSwipeEnd);
+    }
 
     const dispatch = createEventDispatcher();
     let isMounted = false;
@@ -35,21 +56,31 @@
             // metaKey使用時はdefault動作
             return;
         }
-
-        // 画像展開
         e.preventDefault();
+        document.body.style.overflow = 'hidden';
+
+        // 画像表示
         currentImage = image;
+
+        // 通知
         dispatch('open', currentImage);
     };
     const onClose = () => {
+        // イベントリスナー削除
+        $overlay.removeEventListener('keydown', onKeyDown);
+        $overlay.removeEventListener('touchstart', onSwipeStart);
+        $overlay.removeEventListener('touchmove', onSwipeMove);
+        $overlay.removeEventListener('touchend', onSwipeEnd);
+
         // 画像格納
         currentImage = null as unknown as TideImage;
+        document.body.style.overflow = null as unknown as string;
         dispatch('close');
     };
     const onPrev = (image: TideImage) => {
         // 前の画像に変更
         const currentImageIndex = images.findIndex((img) => img.src === image.src);
-        const prevIndex = currentImageIndex === firstIndex ? lastIndex : currentImageIndex - 2;
+        const prevIndex = currentImageIndex === firstIndex ? lastIndex : currentImageIndex - 1;
         currentImage = images[prevIndex];
         dispatch('change', currentImage);
     };
@@ -60,14 +91,65 @@
         currentImage = images[nextIndex];
         dispatch('change', currentImage);
     };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+        if (!currentImage) return;
+
+        if (op.canEscKeyClose && e.code === 'Escape') {
+            // ESCで閉じる
+            onClose();
+        }
+
+        if (op.canArrowKeyChange && e.code === 'ArrowLeft') {
+            // 左矢印で戻る
+            onPrev(currentImage);
+        }
+
+        if (op.canArrowKeyChange && e.code === 'ArrowRight') {
+            // 右矢印で戻る
+            onNext(currentImage);
+        }
+    };
+
+    const swipe = {
+        flg: false,
+        threshold: 100,
+        start: {
+            x: 0,
+            y: 0,
+        },
+        move: {
+            x: 0,
+            y: 0,
+        },
+    };
+    const onSwipeStart = (e: TouchEvent) => {
+        swipe.flg = true;
+        swipe.start.x = e.touches[0].screenX;
+        swipe.start.y = e.touches[0].screenY;
+    };
+    const onSwipeMove = (e: TouchEvent) => {
+        swipe.move.x = e.touches[0].screenX - swipe.start.x;
+        swipe.move.y = e.touches[0].screenY - swipe.start.y;
+    };
+    const onSwipeEnd = (e: TouchEvent) => {
+        swipe.flg = false;
+        if (op.canSwipeChange && swipe.move.x < -10) {
+            onPrev(currentImage);
+        } else if (op.canSwipeChange && swipe.move.x > 10) {
+            onNext(currentImage);
+        } else if (op.canSwipeDownClose && swipe.move.y > 10) {
+            onClose();
+        }
+    };
     onMount(() => {
         isMounted = true;
     });
 </script>
 
-<div class="tide-images" class:is-not-mounted={!isMounted}>
+<div class="tide-images {$$restProps.class}" class:is-not-mounted={!isMounted}>
     {#if $$slots.default}
-        <slot tideImages={images} onClick={(e, image) => onClick(e, image)} />
+        <slot tideImages={images} {onClick} />
     {:else}
         {#each images as image, i (i)}
             <a class="tide-link" href={image.thumbnail ?? image.src} on:click={(e) => onClick(e, image)}>
@@ -76,7 +158,13 @@
         {/each}
     {/if}
     {#if currentImage}
-        <div class="tide-show-image" use:portal={createOptions.appendToNode ?? document.body} hidden transition:fade>
+        <div
+            class="tide-show-image"
+            use:portal={op.appendToNode ?? document.body}
+            hidden
+            transition:fade
+            bind:this={$overlay}
+        >
             <button type="button" class="tide-overlay" on:click|preventDefault={() => onClose()} />
             <img src={currentImage.src} alt={currentImage.alt ?? ''} class="tide-current-image" transition:fade />
             {#if images.length > 1}

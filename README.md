@@ -55,16 +55,20 @@ const onCatchDispatch = ({ detail: image }: { detail: { image: TideImage } }) =>
 
 ## options
 
-|property|type|default|desc|
-|---|---|---|---|
-|appendToNode|HTMLElement|document.body|ImageBoxのDOMを追加する要素を設定|
+| property          | type        | default       | desc                                      |
+| ----------------- | ----------- | ------------- | ----------------------------------------- |
+| appendToNode      | HTMLElement | document.body | ImageBoxのDOMを追加する要素を設定         |
+| canEscKeyClose    | boolean     | true          | Escキーで画像を閉じることができるか       |
+| canArrowKeyChange | boolean     | true          | 左右の矢印キーで画像を戻る/進むができるか |
+| canSwipeDownClose | boolean     | true          | 下スワイプで画像を閉じることができるか    |
+| canSwipeChange    | boolean     | true          | 左右スワイプで画像を戻る/進むができるか   |
 
 ## event
 
 `on:~`にて各種操作時のeventを取得できます。
 
-|Event|引数|
-|---|---|
-|`on:open`|表示する`image`|
-|`on:close`|---|
-|`on:change`|変更後の`image`|
+| Event       | 引数            |
+| ----------- | --------------- |
+| `on:open`   | 表示する`image` |
+| `on:close`  | ---             |
+| `on:change` | 変更後の`image` |
