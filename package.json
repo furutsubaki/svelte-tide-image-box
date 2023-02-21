@@ -10,11 +10,12 @@
         "url": "git+https://github.com/furutsubaki/svelte-tide-image-box"
     },
     "bugs": {
-    "url": "https://github.com/furutsubaki/svelte-tide-image-box/issues"
+        "url": "https://github.com/furutsubaki/svelte-tide-image-box/issues"
     },
     "svelte": "src/index.js",
     "module": "dist/index.mjs",
     "main": "dist/index.js",
+    "typings": "src/types/index",
     "scripts": {
         "build": "rollup -c",
         "lint": "eslint .",
