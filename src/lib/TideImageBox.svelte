@@ -1,23 +1,26 @@
-<script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import { portal } from 'svelte-portal';
-
-    interface TideImage {
+<script lang="ts" context="module">
+    export interface TideImage {
         [key: string]: unknown;
         src: string;
         alt: string;
         thumbnail?: string;
     }
-    interface TideOptions {
+    export interface TideImageOptions {
         appendToNode: HTMLElement;
     }
+</script>
+
+<script lang="ts">
+    import { createEventDispatcher, onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import { portal } from 'svelte-portal';
+
     $: defaultOptions = {
         appendToNode: null as unknown as HTMLElement,
-    } as TideOptions;
+    } as TideImageOptions;
 
     export let images: TideImage[];
-    export let options: TideOptions = defaultOptions;
+    export let options: TideImageOptions = defaultOptions;
 
     const firstIndex = 0;
     $: lastIndex = images.length - 1;
