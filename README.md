@@ -5,7 +5,7 @@ Lightbox風のsvelteコンポーネントを提供します。
 ## npm install
 
 ```bash
-npm install -save-dev furutsubaki/svelte-tide-image-box
+npm install -save-dev svelte-tide-image-box
 ```
 
 ## use
