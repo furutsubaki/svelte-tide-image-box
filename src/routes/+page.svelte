@@ -1,18 +1,20 @@
 <script lang="ts">
-    import TideImageBox from '../../src/TideImageBox.svelte';
-    const images = [
+    import '../app.css';
+    import TideImageBox, { type TideImage } from '../lib/TideImageBox.svelte';
+
+    const images: TideImage[] = [
         {
-            src: '/src/assets/sample1.jpg',
+            src: '/assets/sample1.jpg',
             alt: 'sample1',
         },
         {
-            src: '/src/assets/sample2.jpg',
+            src: '/assets/sample2.jpg',
             alt: 'sample2',
         },
     ];
     const image = [images[0]];
 
-    const onCatchDispatch = ({ detail: image }) => {
+    const onCatchDispatch = ({ detail: image }: { detail: { image: TideImage } }) => {
         // on:closeのみデータはありません
         console.log(image);
     };

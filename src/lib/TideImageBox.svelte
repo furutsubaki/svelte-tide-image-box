@@ -1,3 +1,15 @@
+<script lang="ts" context="module">
+    export interface TideImage {
+        [key: string]: unknown;
+        src: string;
+        alt: string;
+        thumbnail?: string;
+    }
+    export interface TideImageOptions {
+        appendToNode: HTMLElement;
+    }
+</script>
+
 <script lang="ts">
     import { createEventDispatcher, onMount } from 'svelte';
     import { fade } from 'svelte/transition';
