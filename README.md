@@ -12,7 +12,7 @@ npm install -save-dev svelte-tide-image-box
 
 ```typescript
 <script lang="ts">
-import TideImageBox, {type TideImage, type TideImageBoxOption} from 'furutsubaki/svelte-tide-image-box';
+import TideImageBox, {type TideImage, type TideImageOptions} from 'svelte-tide-image-box';
 
 const images:TideImage[] = [
     {
@@ -24,11 +24,11 @@ const images:TideImage[] = [
 ]
 
 // default options (optional)
-const optiosn:TideImageBoxOption = {
+const optiosn:TideImageOptions = {
     appendToNode: document.body,
 }
 
-const onCatchDispatch = ({ detail: image }) => {
+const onCatchDispatch = ({ detail: image }: { detail: { image: TideImage } }) => {
     // on:closeのみデータはありません
     console.log(image);
 };
