@@ -6,11 +6,11 @@
         thumbnail?: string;
     }
     export interface TideImageOptions {
-        appendToNode: HTMLElement;
-        canEscKeyClose: boolean;
-        canArrowKeyChange: boolean;
-        canSwipeDownClose: boolean;
-        canSwipeChange: boolean;
+        appendToNode?: HTMLElement;
+        canEscKeyClose?: boolean;
+        canArrowKeyChange?: boolean;
+        canSwipeDownClose?: boolean;
+        canSwipeChange?: boolean;
     }
 </script>
 
