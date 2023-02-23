@@ -208,7 +208,7 @@
         align-items: center;
         z-index: 1;
         .tide-overlay {
-            position: fixed;
+            position: absolute;
             inset: 0;
             margin: auto;
             padding: 0;
@@ -217,7 +217,7 @@
             background-color: #2d2d2dcc;
         }
         .tide-current-image {
-            position: fixed;
+            position: absolute;
             inset: 0;
             margin: auto;
             object-fit: contain;
@@ -225,7 +225,7 @@
             max-height: calc(100% - 48px);
         }
         .prev-button {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             left: 0;
@@ -253,7 +253,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 12px;
                 height: 1px;
@@ -270,7 +270,7 @@
             }
         }
         .next-button {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             right: 0;
@@ -298,7 +298,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 12px;
                 height: 1px;
@@ -315,7 +315,7 @@
             }
         }
         .close-button {
-            position: fixed;
+            position: absolute;
             top: 8px;
             right: 8px;
             width: 24px;
@@ -342,7 +342,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 24px;
                 height: 1px;
