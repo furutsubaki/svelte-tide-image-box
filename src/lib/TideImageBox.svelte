@@ -6,11 +6,13 @@
         thumbnail?: string;
     }
     export interface TideImageOptions {
-        appendToNode: HTMLElement;
-        canEscKeyClose: boolean;
-        canArrowKeyChange: boolean;
-        canSwipeDownClose: boolean;
-        canSwipeChange: boolean;
+        appendToNode?: HTMLElement;
+        canEscKeyClose?: boolean;
+        canArrowKeyChange?: boolean;
+        canSwipeDownClose?: boolean;
+        canSwipeChange?: boolean;
+        canScrollNone?: boolean;
+        scrollNoneToNode?: HTMLElement;
     }
 </script>
 
@@ -26,6 +28,8 @@
         canArrowKeyChange: true,
         canSwipeDownClose: true,
         canSwipeChange: true,
+        canScrollNone: true,
+        scrollNoneToNode: null as unknown as HTMLElement,
     } as TideImageOptions;
 
     export let images: TideImage[];
@@ -55,7 +59,11 @@
             return;
         }
         e.preventDefault();
-        document.body.style.overflow = 'hidden';
+
+        if (op.canScrollNone) {
+            const scrollNoneTargetNode = op.scrollNoneToNode ?? document.body;
+            scrollNoneTargetNode.style.overflow = 'hidden';
+        }
 
         // 画像表示
         currentImage = image;
@@ -72,7 +80,11 @@
 
         // 画像格納
         currentImage = null as unknown as TideImage;
-        document.body.style.overflow = null as unknown as string;
+
+        if (op.canScrollNone) {
+            const scrollNoneTargetNode = op.scrollNoneToNode ?? document.body;
+            scrollNoneTargetNode.style.overflow = null as unknown as string;
+        }
         dispatch('close');
     };
     const onPrev = (image: TideImage) => {
@@ -130,7 +142,7 @@
         swipe.move.x = e.touches[0].screenX - swipe.start.x;
         swipe.move.y = e.touches[0].screenY - swipe.start.y;
     };
-    const onSwipeEnd = (e: TouchEvent) => {
+    const onSwipeEnd = () => {
         swipe.flg = false;
         if (op.canSwipeChange && swipe.move.x < -10) {
             onPrev(currentImage);
@@ -208,7 +220,7 @@
         align-items: center;
         z-index: 1;
         .tide-overlay {
-            position: fixed;
+            position: absolute;
             inset: 0;
             margin: auto;
             padding: 0;
@@ -217,7 +229,7 @@
             background-color: #2d2d2dcc;
         }
         .tide-current-image {
-            position: fixed;
+            position: absolute;
             inset: 0;
             margin: auto;
             object-fit: contain;
@@ -225,7 +237,7 @@
             max-height: calc(100% - 48px);
         }
         .prev-button {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             left: 0;
@@ -253,7 +265,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 12px;
                 height: 1px;
@@ -270,7 +282,7 @@
             }
         }
         .next-button {
-            position: fixed;
+            position: absolute;
             top: 0;
             bottom: 0;
             right: 0;
@@ -298,7 +310,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 12px;
                 height: 1px;
@@ -315,7 +327,7 @@
             }
         }
         .close-button {
-            position: fixed;
+            position: absolute;
             top: 8px;
             right: 8px;
             width: 24px;
@@ -342,7 +354,7 @@
             &::before,
             &::after {
                 content: '';
-                position: fixed;
+                position: absolute;
                 display: block;
                 width: 24px;
                 height: 1px;

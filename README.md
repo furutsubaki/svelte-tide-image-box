@@ -62,6 +62,8 @@ const onCatchDispatch = ({ detail: image }: { detail: { image: TideImage } }) =>
 | canArrowKeyChange | boolean     | true          | 左右の矢印キーで画像を戻る/進むができるか |
 | canSwipeDownClose | boolean     | true          | 下スワイプで画像を閉じることができるか    |
 | canSwipeChange    | boolean     | true          | 左右スワイプで画像を戻る/進むができるか   |
+| canScrollNone     | boolean     | true          | 背景のスクロールを禁止するか              |
+| scrollNoneToNode  | HTMLElement | document.body | 背景のスクロールを禁止する要素を設定      |
 
 ## event
 
