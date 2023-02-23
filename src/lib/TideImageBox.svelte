@@ -142,7 +142,7 @@
         swipe.move.x = e.touches[0].screenX - swipe.start.x;
         swipe.move.y = e.touches[0].screenY - swipe.start.y;
     };
-    const onSwipeEnd = (e: TouchEvent) => {
+    const onSwipeEnd = () => {
         swipe.flg = false;
         if (op.canSwipeChange && swipe.move.x < -10) {
             onPrev(currentImage);
