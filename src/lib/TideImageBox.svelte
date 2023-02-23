@@ -11,6 +11,8 @@
         canArrowKeyChange?: boolean;
         canSwipeDownClose?: boolean;
         canSwipeChange?: boolean;
+        canScrollNone?: boolean;
+        scrollNoneToNode?: HTMLElement;
     }
 </script>
 
@@ -26,6 +28,8 @@
         canArrowKeyChange: true,
         canSwipeDownClose: true,
         canSwipeChange: true,
+        canScrollNone: true,
+        scrollNoneToNode: null as unknown as HTMLElement,
     } as TideImageOptions;
 
     export let images: TideImage[];
@@ -55,7 +59,11 @@
             return;
         }
         e.preventDefault();
-        document.body.style.overflow = 'hidden';
+
+        if (op.canScrollNone) {
+            const scrollNoneTargetNode = op.scrollNoneToNode ?? document.body;
+            scrollNoneTargetNode.style.overflow = 'hidden';
+        }
 
         // 画像表示
         currentImage = image;
@@ -72,7 +80,11 @@
 
         // 画像格納
         currentImage = null as unknown as TideImage;
-        document.body.style.overflow = null as unknown as string;
+
+        if (op.canScrollNone) {
+            const scrollNoneTargetNode = op.scrollNoneToNode ?? document.body;
+            scrollNoneTargetNode.style.overflow = null as unknown as string;
+        }
         dispatch('close');
     };
     const onPrev = (image: TideImage) => {
