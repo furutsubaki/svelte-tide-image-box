@@ -32,21 +32,21 @@
         scrollNoneToNode: null as unknown as HTMLElement,
     } as TideImageOptions;
 
+    let className = '';
     export let images: TideImage[];
     export let options: TideImageOptions = defaultOptions;
+    export { className as class };
 
     const firstIndex = 0;
     $: lastIndex = images.length - 1;
     $: op = { ...defaultOptions, ...options };
 
-    let overlay = writable<HTMLElement>(null as unknown as HTMLElement);
-
-    $: if ($overlay) {
+    $: if (typeof document !== 'undefined') {
         // イベントリスナー追加
-        $overlay.addEventListener('keydown', onKeyDown);
-        $overlay.addEventListener('touchstart', onSwipeStart);
-        $overlay.addEventListener('touchmove', onSwipeMove);
-        $overlay.addEventListener('touchend', onSwipeEnd);
+        document.addEventListener('keydown', onKeyDown);
+        document.addEventListener('touchstart', onSwipeStart);
+        document.addEventListener('touchmove', onSwipeMove);
+        document.addEventListener('touchend', onSwipeEnd);
     }
 
     const dispatch = createEventDispatcher();
@@ -73,10 +73,10 @@
     };
     const onClose = () => {
         // イベントリスナー削除
-        $overlay.removeEventListener('keydown', onKeyDown);
-        $overlay.removeEventListener('touchstart', onSwipeStart);
-        $overlay.removeEventListener('touchmove', onSwipeMove);
-        $overlay.removeEventListener('touchend', onSwipeEnd);
+        document.removeEventListener('keydown', onKeyDown);
+        document.removeEventListener('touchstart', onSwipeStart);
+        document.removeEventListener('touchmove', onSwipeMove);
+        document.removeEventListener('touchend', onSwipeEnd);
 
         // 画像格納
         currentImage = null as unknown as TideImage;
@@ -157,7 +157,7 @@
     });
 </script>
 
-<div class="tide-images {$$restProps.class}" class:is-not-mounted={!isMounted}>
+<div class="tide-images  {className}" class:is-not-mounted={!isMounted}>
     {#if $$slots.default}
         <slot tideImages={images} {onClick} />
     {:else}
@@ -168,13 +168,7 @@
         {/each}
     {/if}
     {#if currentImage}
-        <div
-            class="tide-show-image"
-            use:portal={op.appendToNode ?? document.body}
-            hidden
-            transition:fade
-            bind:this={$overlay}
-        >
+        <div class="tide-show-image" use:portal={op.appendToNode ?? document.body} hidden transition:fade>
             <button type="button" class="tide-overlay" on:click|preventDefault={() => onClose()} />
             <img src={currentImage.src} alt={currentImage.alt ?? ''} class="tide-current-image" transition:fade />
             {#if images.length > 1}
@@ -196,7 +190,7 @@
     }
     .tide-images {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         &.is-not-mounted {
             pointer-events: none;
         }
