@@ -32,8 +32,10 @@
         scrollNoneToNode: null as unknown as HTMLElement,
     } as TideImageOptions;
 
+    let className = '';
     export let images: TideImage[];
     export let options: TideImageOptions = defaultOptions;
+    export { className as class };
 
     const firstIndex = 0;
     $: lastIndex = images.length - 1;
@@ -157,7 +159,7 @@
     });
 </script>
 
-<div class="tide-images {$$restProps.class}" class:is-not-mounted={!isMounted}>
+<div class="tide-images  {className}" class:is-not-mounted={!isMounted}>
     {#if $$slots.default}
         <slot tideImages={images} {onClick} />
     {:else}
@@ -196,7 +198,7 @@
     }
     .tide-images {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
         &.is-not-mounted {
             pointer-events: none;
         }
