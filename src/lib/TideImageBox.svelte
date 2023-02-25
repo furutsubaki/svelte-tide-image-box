@@ -103,8 +103,6 @@
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
-        console.log('keydown');
-
         if (!currentImage) return;
 
         if (op.canEscKeyClose && e.code === 'Escape') {
