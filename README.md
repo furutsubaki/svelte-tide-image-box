@@ -58,6 +58,7 @@ const onCatchDispatch = ({ detail: image }: { detail: { image: TideImage } }) =>
 | property          | type        | default       | desc                                      |
 | ----------------- | ----------- | ------------- | ----------------------------------------- |
 | appendToNode      | HTMLElement | document.body | ImageBoxのDOMを追加する要素を設定         |
+| isShowCaption     | boolean     | false         | キャプション（alt）を表示するか           |
 | canEscKeyClose    | boolean     | true          | Escキーで画像を閉じることができるか       |
 | canArrowKeyChange | boolean     | true          | 左右の矢印キーで画像を戻る/進むができるか |
 | canSwipeDownClose | boolean     | true          | 下スワイプで画像を閉じることができるか    |
