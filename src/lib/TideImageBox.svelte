@@ -71,7 +71,7 @@
         // 通知
         dispatch('open', currentImage);
     };
-    const onClose = () => {
+    export const onClose = () => {
         // イベントリスナー削除
         document.removeEventListener('keydown', onKeyDown);
         document.removeEventListener('touchstart', onSwipeStart);
