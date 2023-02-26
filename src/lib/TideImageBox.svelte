@@ -238,7 +238,7 @@ button {
 }
 .tide-images {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     &.is-not-mounted {
         pointer-events: none;
     }
@@ -269,6 +269,7 @@ button {
         width: 100%;
         height: 100%;
         background-color: #2d2d2dcc;
+        transition: background-color 0.2s;
     }
     .box {
         position: absolute;
@@ -290,14 +291,13 @@ button {
             display: flex;
             flex-direction: column;
             width: 100%;
-            padding: 0 24px;
-            transition: color 0.2s;
             .caption {
                 font-weight: bold;
             }
             .meta-text {
                 font-size: 12px;
                 color: #b4c1c8;
+                transition: color 0.2s;
             }
         }
     }
@@ -356,6 +356,7 @@ button {
         padding: 0;
         padding-left: 5px;
         background-color: transparent;
+        transition: background-color 0.2s;
         @media (hover: hover) {
             &:hover {
                 &::before,
@@ -400,6 +401,7 @@ button {
         margin: 0;
         padding: 0;
         background-color: transparent;
+        transition: background-color 0.2s;
         @media (hover: hover) {
             &:hover {
                 &::before,
