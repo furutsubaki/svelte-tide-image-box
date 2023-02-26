@@ -7,6 +7,7 @@
     }
     export interface TideImageOptions {
         appendToNode?: HTMLElement;
+        isShowCaption?: boolean;
         canEscKeyClose?: boolean;
         canArrowKeyChange?: boolean;
         canSwipeDownClose?: boolean;
@@ -20,10 +21,10 @@
     import { createEventDispatcher, onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import { portal } from 'svelte-portal';
-    import { writable } from 'svelte/store';
 
     $: defaultOptions = {
         appendToNode: null as unknown as HTMLElement,
+        isShowCaption: false,
         canEscKeyClose: true,
         canArrowKeyChange: true,
         canSwipeDownClose: true,
@@ -52,6 +53,7 @@
     const dispatch = createEventDispatcher();
     let isMounted = false;
     let currentImage: TideImage = null as unknown as TideImage;
+    $: currentIndex = images.findIndex((i) => i === currentImage);
 
     const onClick = (e: MouseEvent, image: TideImage) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey) {
@@ -170,7 +172,15 @@
     {#if currentImage}
         <div class="tide-show-image" use:portal={op.appendToNode ?? document.body} hidden transition:fade>
             <button type="button" class="tide-overlay" on:click|preventDefault={() => onClose()} />
-            <img src={currentImage.src} alt={currentImage.alt ?? ''} class="tide-current-image" transition:fade />
+            <div class="box">
+                <img src={currentImage.src} alt={currentImage.alt ?? ''} class="tide-current-image" transition:fade />
+                <div class="meta">
+                    {#if op.isShowCaption && currentImage.alt}
+                        <div class="caption">{currentImage.alt}</div>
+                    {/if}
+                    <div class="meta-text">image {currentIndex + 1} of {images.length}</div>
+                </div>
+            </div>
             {#if images.length > 1}
                 <button type="button" class="prev-button" on:click|preventDefault={() => onPrev(currentImage)} />
                 <button type="button" class="next-button" on:click|preventDefault={() => onNext(currentImage)} />
@@ -222,13 +232,36 @@
             height: 100%;
             background-color: #2d2d2dcc;
         }
-        .tide-current-image {
+        .box {
             position: absolute;
             inset: 0;
             margin: auto;
-            object-fit: contain;
-            max-width: calc(100% - 48px);
-            max-height: calc(100% - 48px);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+            .tide-current-image {
+                pointer-events: initial;
+                object-fit: contain;
+                max-width: 100%;
+                max-height: 100%;
+            }
+            .meta {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 0 24px;
+                transition: color 0.2s;
+                .caption {
+                    font-weight: bold;
+                }
+                .meta-text {
+                    font-size: 12px;
+                    color: #b4c1c8;
+                }
+            }
         }
         .prev-button {
             position: absolute;
